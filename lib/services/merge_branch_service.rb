@@ -1,4 +1,4 @@
-class MergeBrachService
+class MergeBranchService
   attr_reader :inputs, :event
 
   TYPE_LABELED = "labeled".freeze

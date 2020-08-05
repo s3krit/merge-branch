@@ -13,12 +13,13 @@ inputs = {
   target_branch: ENV['INPUT_TARGET_BRANCH']
 }
 
-MergeBrachService.validate_inputs!(inputs)
-service = MergeBrachService.new(inputs, @event)
+MergeBranchService.validate_inputs!(inputs)
+service = MergeBranchService.new(inputs, @event)
 
 if service.valid?
   @client = Octokit::Client.new(access_token: @github_token)
-  @client.merge(@repository, inputs[:target_branch], @head_to_merge)
+  out = @client.merge(@repository, inputs[:target_branch], @head_to_merge)
+  puts "::set-output name=sha::#{out['sha']}"
   puts "Finish merge branch to #{inputs[:target_branch]}"
 else
   puts 'Skip'
